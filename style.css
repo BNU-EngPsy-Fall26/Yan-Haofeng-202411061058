@@ -1,0 +1,1256 @@
+/* ============================================================
+   style.css
+   全站视觉样式。按页面区域组织：基础主题、首页、游戏、结果、
+   概念实验室、实验说明与最终驾驶舱细节。
+   ============================================================ */
+
+/* ---------- 基础主题与全局布局 ---------- */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #08111f;
+  --bg-soft: #0d1a2c;
+  --panel: #111f33;
+  --panel-2: #16283f;
+  --line: #29415f;
+  --text: #eef6ff;
+  --muted: #9fb2c8;
+  --primary: #4fa3ff;
+  --primary-2: #7cc5ff;
+  --safe: #32c48d;
+  --danger: #ff6868;
+  --warning: #ffb44d;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.18), transparent 30%),
+    linear-gradient(180deg, #08111f 0%, #091522 100%);
+  font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  width: min(1180px, calc(100% - 32px));
+  margin: 18px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), #2e6cd3);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow);
+}
+
+.brand-title {
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+main {
+  width: min(1180px, calc(100% - 32px));
+  margin: 28px auto 60px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ---------- 首页与实验参数 ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.75fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.hero-copy,
+.setup-card,
+.panel,
+.viz-card,
+/* ---------- 驾驶检测游戏 ---------- */
+.game-shell {
+  border: 1px solid rgba(128, 167, 208, 0.18);
+  background: rgba(15, 29, 48, 0.88);
+  box-shadow: var(--shadow);
+}
+
+.hero-copy {
+  border-radius: 28px;
+  padding: 44px;
+  background:
+    linear-gradient(135deg, rgba(48, 102, 171, 0.18), transparent 52%),
+    rgba(15, 29, 48, 0.88);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--primary-2);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.12;
+}
+
+.hero-copy > p,
+.result-header > p,
+.lab-heading p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.definition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.definition-grid article {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.definition-grid article strong {
+  display: block;
+  margin: 10px 0 8px;
+}
+
+.definition-grid article p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.tag {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tag.signal {
+  color: #ffd6d6;
+  background: rgba(255, 104, 104, 0.14);
+}
+
+.tag.noise {
+  color: #d7e8ff;
+  background: rgba(79, 163, 255, 0.14);
+}
+
+.setup-card {
+  border-radius: 28px;
+  padding: 30px;
+}
+
+.setup-card h2 {
+  margin-bottom: 26px;
+}
+
+.control-label,
+.stack-control {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.value-badge,
+.lab-controls strong,
+.stack-control strong {
+  float: right;
+  color: var(--text);
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 14px 0 8px;
+  accent-color: var(--primary);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.parameter-list {
+  margin: 24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.parameter-list div {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(41, 65, 95, 0.6);
+}
+
+.parameter-list div:last-child {
+  border-bottom: 0;
+}
+
+.parameter-list span {
+  color: var(--muted);
+}
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 13px 18px;
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.ghost-btn:hover,
+.response-btn:hover,
+.lab-tab:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn {
+  width: 100%;
+  color: white;
+  background: linear-gradient(135deg, #388fe8, #2866c7);
+}
+
+.secondary-btn {
+  width: 100%;
+  margin-top: 10px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: transparent;
+}
+
+.ghost-btn {
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.explain-section {
+  margin-top: 28px;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.outcome-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.outcome-card h3 {
+  margin: 14px 0 8px;
+}
+
+.outcome-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.outcome-code {
+  display: inline-grid;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 8px;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(79, 163, 255, 0.14);
+  color: var(--primary-2);
+  font-weight: 800;
+}
+
+.game-shell {
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.game-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.game-header h2 {
+  margin-bottom: 0;
+}
+
+.game-meta {
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.game-meta strong {
+  color: var(--text);
+}
+
+.progress-track {
+  height: 8px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #0a1422;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), var(--safe));
+  transition: width 0.25s ease;
+}
+
+.road-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #2a4566;
+  border-radius: 22px;
+  background: #03070d;
+}
+
+#gameCanvas,
+#distributionCanvas,
+#rocCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stimulus-cover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(4, 10, 18, 0.84);
+  backdrop-filter: blur(3px);
+  text-align: center;
+  color: #c9d8e8;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.feedback-box {
+  min-height: 50px;
+  margin: 16px 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.feedback-box.good {
+  color: #baf4dc;
+  background: rgba(50, 196, 141, 0.1);
+}
+
+.feedback-box.bad {
+  color: #ffd0d0;
+  background: rgba(255, 104, 104, 0.1);
+}
+
+.response-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.response-btn {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: var(--text);
+  background: #102137;
+  transition: transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.response-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.response-btn.danger:not(:disabled) {
+  border-color: rgba(255, 104, 104, 0.55);
+}
+
+.response-btn.safe:not(:disabled) {
+  border-color: rgba(50, 196, 141, 0.55);
+}
+
+.response-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.response-btn span:last-child {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.response-btn small {
+  color: var(--muted);
+}
+
+/* ---------- 结果页与混淆矩阵 ---------- */
+.result-header {
+  margin-bottom: 22px;
+}
+
+.result-header h1,
+.lab-heading h1 {
+  margin-bottom: 10px;
+  font-size: clamp(34px, 4vw, 50px);
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+}
+
+.panel {
+  border-radius: 22px;
+  padding: 24px;
+}
+
+.panel-title-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.subtle {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: 132px repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.matrix > div {
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+}
+
+.matrix-head,
+.matrix-side {
+  color: var(--muted);
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.matrix-cell {
+  padding: 12px;
+  text-align: center;
+}
+
+.matrix-cell span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.matrix-cell strong {
+  font-size: 30px;
+}
+
+.matrix-cell.hit,
+.matrix-cell.cr {
+  background: rgba(50, 196, 141, 0.12);
+}
+
+.matrix-cell.miss,
+.matrix-cell.fa {
+  background: rgba(255, 104, 104, 0.1);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metric-grid article,
+.probability-grid article,
+.roc-readout div {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.metric-grid span,
+.probability-grid span,
+.roc-readout span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric-grid strong,
+.probability-grid strong,
+.roc-readout strong {
+  font-size: 24px;
+}
+
+.interpret-box,
+.concept-note {
+  margin-top: 16px;
+  padding: 15px 16px;
+  border: 1px solid rgba(79, 163, 255, 0.24);
+  border-radius: 14px;
+  color: #cfe5ff;
+  background: rgba(79, 163, 255, 0.08);
+  line-height: 1.7;
+}
+
+.result-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.result-actions .primary-btn,
+.result-actions .secondary-btn {
+  width: auto;
+  margin-top: 0;
+}
+
+/* ---------- 概念实验室 ---------- */
+.lab-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.lab-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.lab-tab {
+  flex: 1;
+  min-height: 46px;
+  border: 0;
+  border-radius: 11px;
+  color: var(--muted);
+  background: transparent;
+  font-weight: 700;
+}
+
+.lab-tab.active {
+  color: white;
+  background: linear-gradient(135deg, #2e78ca, #285fa9);
+}
+
+.lab-panel {
+  display: none;
+}
+
+.lab-panel.active {
+  display: block;
+}
+
+.lab-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.lab-controls label,
+.stack-control {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--muted);
+}
+
+.viz-card {
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 12px;
+}
+
+.probability-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.roc-readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.cost-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.stack-control {
+  margin-bottom: 14px;
+}
+
+.decision-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.big-number {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.big-number span {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.big-number strong {
+  font-size: 42px;
+}
+
+.formula-note {
+  margin-top: auto;
+  padding-top: 20px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .result-layout,
+  .cost-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .outcome-grid,
+  .probability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar,
+  main {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .hero-copy,
+  .setup-card,
+  .game-shell,
+  .panel {
+    padding: 20px;
+  }
+
+  .definition-grid,
+  .response-grid,
+  .metric-grid,
+  .lab-controls,
+  .roc-readout {
+    grid-template-columns: 1fr;
+  }
+
+  .outcome-grid,
+  .probability-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .game-header,
+  .lab-heading,
+  .result-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .game-meta {
+    justify-content: space-between;
+  }
+
+  .matrix {
+    grid-template-columns: 92px repeat(2, minmax(0, 1fr));
+  }
+
+  .matrix-cell strong {
+    font-size: 24px;
+  }
+
+  .lab-tabs {
+    flex-direction: column;
+  }
+}
+
+/* ===== V2：多局对比、概念实验室增强 ===== */
+.calculation-note {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 184, 102, 0.28);
+  border-radius: 12px;
+  color: #ffe2bd;
+  background: rgba(255, 184, 102, 0.08);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.history-panel {
+  margin-top: 20px;
+}
+
+.history-title-row {
+  align-items: flex-start;
+}
+
+.history-subtitle {
+  margin: 6px 0 0;
+}
+
+.compact-btn {
+  padding: 9px 13px;
+  white-space: nowrap;
+}
+
+.history-chart-wrap {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #0b1727;
+}
+
+#historyCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.history-table {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: 0.8fr repeat(4, 1fr);
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(41, 65, 95, 0.55);
+  color: #dce9f6;
+  font-size: 14px;
+}
+
+.history-row:last-child {
+  border-bottom: 0;
+}
+
+.history-row-head {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.history-empty {
+  padding: 22px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.lab-matrix-panel {
+  margin-top: 14px;
+}
+
+.probability-matrix .matrix-cell strong {
+  font-size: 24px;
+}
+
+.payoff-grid {
+  display: grid;
+  grid-template-columns: 118px repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.payoff-head,
+.payoff-side,
+.payoff-cell {
+  min-width: 0;
+  border-radius: 12px;
+}
+
+.payoff-head,
+.payoff-side {
+  display: grid;
+  place-items: center;
+  min-height: 56px;
+  padding: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 12px;
+  text-align: center;
+}
+
+.payoff-cell {
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.payoff-cell.reward {
+  border: 1px solid rgba(50, 196, 141, 0.28);
+  background: rgba(50, 196, 141, 0.08);
+}
+
+.payoff-cell.cost {
+  border: 1px solid rgba(255, 104, 104, 0.26);
+  background: rgba(255, 104, 104, 0.07);
+}
+
+.payoff-cell input {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  background: #0c1828;
+}
+
+@media (max-width: 640px) {
+  .history-row {
+    grid-template-columns: 0.65fr repeat(4, 1fr);
+    gap: 6px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .payoff-grid {
+    grid-template-columns: 84px repeat(2, minmax(0, 1fr));
+  }
+
+  .payoff-cell {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+
+/* ---------- V3：键盘作答与实验说明 ---------- */
+.instruction-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 34px;
+  border: 1px solid rgba(128, 167, 208, 0.18);
+  border-radius: 28px;
+  background: rgba(15, 29, 48, 0.90);
+  box-shadow: var(--shadow);
+}
+
+.instruction-heading {
+  text-align: center;
+}
+
+.instruction-heading h1 {
+  margin-bottom: 12px;
+}
+
+.instruction-heading p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.key-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0 18px;
+}
+
+.key-guide {
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.key-guide h2 {
+  margin-bottom: 8px;
+}
+
+.key-guide p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.danger-guide {
+  border-color: rgba(255, 104, 104, 0.36);
+}
+
+.safe-guide {
+  border-color: rgba(50, 196, 141, 0.36);
+}
+
+.keycap {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(218, 233, 248, 0.34);
+  border-bottom-width: 4px;
+  border-radius: 10px;
+  color: #f5f9ff;
+  background: linear-gradient(180deg, #243952, #13253a);
+  font-weight: 800;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.22);
+}
+
+.large-keycap {
+  width: 78px;
+  height: 78px;
+  font-size: 34px;
+}
+
+.response-keycap {
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+}
+
+.response-btn.key-pressed {
+  transform: translateY(2px) scale(0.99);
+  background: #17304c;
+}
+
+.instruction-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.instruction-notes div {
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.instruction-notes strong,
+.instruction-notes span {
+  display: block;
+}
+
+.instruction-notes strong {
+  margin-bottom: 6px;
+  font-size: 25px;
+}
+
+.instruction-notes span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.instruction-tip {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  color: #cfe5ff;
+  background: rgba(79, 163, 255, 0.08);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.instruction-start-btn {
+  max-width: 360px;
+  display: block;
+  margin: 22px auto 0;
+}
+
+/* ---------- V3：支付矩阵滑块 + 精确数值 ---------- */
+.payoff-cell {
+  align-items: stretch !important;
+  gap: 10px;
+}
+
+.payoff-cell > span {
+  display: block;
+  font-weight: 700;
+}
+
+.payoff-control {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 68px;
+  gap: 10px;
+  align-items: center;
+}
+
+.payoff-control input[type="range"] {
+  min-width: 0;
+  margin: 0;
+}
+
+.payoff-control input[type="number"] {
+  width: 68px;
+  padding: 8px 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: #0c1929;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .instruction-shell {
+    padding: 20px;
+  }
+
+  .key-guide-grid,
+  .instruction-notes {
+    grid-template-columns: 1fr;
+  }
+
+  .key-guide {
+    min-height: 0;
+  }
+}
+
+
+/* ---------- Final：空格开始 + 驾驶舱视觉精修 ---------- */
+.key-guide-grid.three-keys {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.key-guide-grid.three-keys .key-guide {
+  min-height: 188px;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.start-guide {
+  border-color: rgba(79, 163, 255, 0.52);
+  background: linear-gradient(180deg, rgba(79, 163, 255, 0.10), rgba(255, 255, 255, 0.02));
+}
+
+.space-keycap {
+  width: 126px;
+  height: 56px;
+  font-size: 17px;
+  letter-spacing: 1.4px;
+}
+
+.instruction-start-btn {
+  max-width: 400px;
+  font-size: 17px;
+  letter-spacing: 0.3px;
+}
+
+.instruction-fallback {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.vehicle-status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.status-pill {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 1px solid rgba(110, 151, 195, 0.28);
+  border-radius: 999px;
+  color: #9fb5cb;
+  background: rgba(8, 19, 32, 0.68);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.55px;
+}
+
+.status-pill strong {
+  color: #eaf6ff;
+  font-size: 14px;
+}
+
+.active-status {
+  color: #baf4dc;
+  border-color: rgba(50, 196, 141, 0.34);
+}
+
+.active-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--safe);
+  box-shadow: 0 0 9px rgba(50, 196, 141, 0.72);
+}
+
+.cockpit-frame {
+  border-color: rgba(85, 137, 191, 0.58);
+  box-shadow:
+    inset 0 0 0 1px rgba(171, 211, 255, 0.04),
+    0 16px 36px rgba(0, 0, 0, 0.28);
+}
+
+.cockpit-frame::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 10px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 14, 23, 0), rgba(4, 8, 14, 0.88));
+}
+
+@media (max-width: 820px) {
+  .key-guide-grid.three-keys {
+    grid-template-columns: 1fr;
+  }
+
+  .key-guide-grid.three-keys .key-guide {
+    min-height: 0;
+    flex-direction: row;
+    text-align: left;
+  }
+}

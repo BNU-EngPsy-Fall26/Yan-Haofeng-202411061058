@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智驾夜间行人检测 · SDT实验室</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">SDT</div>
+      <div>
+        <div class="brand-title">智驾夜间行人检测</div>
+        <div class="brand-subtitle">Signal Detection Theory Lab</div>
+      </div>
+    </div>
+    <button id="homeBtn" class="ghost-btn" type="button">返回首页</button>
+  </header>
+
+  <main>
+    <!-- 首页 -->
+    <section id="homeScreen" class="screen active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">工程心理学 · 信号检测论</span>
+          <h1>在夜间道路中，<br>你能及时发现行人吗？</h1>
+          <p>
+            你将扮演智能驾驶安全监控员。在短暂出现的夜间道路画面中，
+            判断前方是否存在需要紧急制动的行人。实验结束后，系统会自动计算
+            H / M / FA / CR、击中率、误报率、d′、c 与准确率。
+          </p>
+
+          <div class="definition-grid">
+            <article>
+              <span class="tag signal">Signal</span>
+              <strong>存在行人</strong>
+              <p>前方存在需要紧急响应的行人目标。</p>
+            </article>
+            <article>
+              <span class="tag noise">Noise</span>
+              <strong>不存在行人</strong>
+              <p>道路中只有阴影、路牌、护栏等视觉杂波。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="setup-card">
+          <h2>实验参数</h2>
+
+          <label class="control-label" for="difficultySlider">
+            系统设定 d′
+            <span id="difficultyValue" class="value-badge">1.5</span>
+          </label>
+          <input id="difficultySlider" type="range" min="0.5" max="3.0" step="0.1" value="1.5">
+          <div class="range-labels">
+            <span>更难</span>
+            <span>更容易</span>
+          </div>
+
+          <div class="parameter-list">
+            <div><span>试次数</span><strong>30</strong></div>
+            <div><span>信号概率 P(S)</span><strong>0.50</strong></div>
+            <div><span>刺激呈现</span><strong>1000 ms</strong></div>
+          </div>
+
+          <button id="startBtn" class="primary-btn" type="button">开始驾驶检测实验</button>
+          <button id="labBtn" class="secondary-btn" type="button">进入概念实验室 →</button>
+        </div>
+      </div>
+
+      <section class="explain-section">
+        <h2>四种判断结果</h2>
+        <div class="outcome-grid">
+          <article class="outcome-card">
+            <span class="outcome-code">H</span>
+            <h3>击中 Hit</h3>
+            <p>有行人，你选择“紧急制动”。</p>
+          </article>
+          <article class="outcome-card">
+            <span class="outcome-code">M</span>
+            <h3>漏报 Miss</h3>
+            <p>有行人，你选择“继续行驶”。</p>
+          </article>
+          <article class="outcome-card">
+            <span class="outcome-code">FA</span>
+            <h3>误报 False Alarm</h3>
+            <p>无行人，你选择“紧急制动”。</p>
+          </article>
+          <article class="outcome-card">
+            <span class="outcome-code">CR</span>
+            <h3>正确拒斥</h3>
+            <p>无行人，你选择“继续行驶”。</p>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <!-- 实验说明 -->
+    <section id="instructionScreen" class="screen">
+      <div class="instruction-shell">
+        <div class="instruction-heading">
+          <span class="eyebrow">实验开始前</span>
+          <h1>双手就位，按空格键开始</h1>
+          <p>请把左手食指放在 F 键，右手食指放在 J 键。准备好后无需再移动鼠标，直接按 Space 开始实验。</p>
+        </div>
+
+        <div class="key-guide-grid three-keys">
+          <article class="key-guide danger-guide">
+            <span class="keycap large-keycap">F</span>
+            <div>
+              <h2>紧急制动</h2>
+              <p>如果你认为刚才的道路画面中<strong>存在行人</strong>，按 F。</p>
+            </div>
+          </article>
+          <article class="key-guide start-guide">
+            <span class="keycap space-keycap">SPACE</span>
+            <div>
+              <h2>开始实验</h2>
+              <p>双手放好后按空格键，正式进入第 1 个试次。</p>
+            </div>
+          </article>
+          <article class="key-guide safe-guide">
+            <span class="keycap large-keycap">J</span>
+            <div>
+              <h2>继续行驶</h2>
+              <p>如果你认为刚才的道路画面中<strong>不存在行人</strong>，按 J。</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="instruction-notes">
+          <div><strong>30</strong><span>个试次</span></div>
+          <div><strong>1000 ms</strong><span>刺激呈现</span></div>
+          <div><strong id="instructionDprime">1.5</strong><span>系统设定 d′</span></div>
+        </div>
+
+        <div class="instruction-tip">
+          道路画面出现时只需观察；画面消失后再按 F 或 J。刺激呈现期间提前按键不会被记录。准备好后按 <strong>Space</strong> 开始。
+        </div>
+
+        <button id="confirmStartBtn" class="primary-btn instruction-start-btn" type="button">按 SPACE 开始实验</button>
+        <p class="instruction-fallback">也可以点击上方按钮作为备用操作。</p>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="gameScreen" class="screen">
+      <div class="game-shell">
+        <div class="game-header">
+          <div>
+            <span class="eyebrow">夜间道路检测</span>
+            <h2>前方是否存在行人？</h2>
+          </div>
+          <div class="game-meta">
+            <div>Trial <strong id="trialIndex">1</strong> / <span id="trialTotal">30</span></div>
+            <div>设定 d′ <strong id="gameDprime">1.5</strong></div>
+          </div>
+        </div>
+
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+
+        <div class="vehicle-status-strip" aria-label="车辆状态">
+          <span class="status-pill active-status"><i></i>ADAS ACTIVE</span>
+          <span class="status-pill">NIGHT VISION</span>
+          <span class="status-pill"><strong>45</strong> km/h</span>
+          <span class="status-pill">CAMERA · ONLINE</span>
+        </div>
+
+        <div class="road-frame cockpit-frame">
+          <canvas id="gameCanvas" width="1000" height="500"></canvas>
+          <div id="stimulusCover" class="stimulus-cover hidden">
+            <span>刺激已消失，请根据刚才看到的画面作答</span>
+          </div>
+        </div>
+
+        <div id="feedbackBox" class="feedback-box" aria-live="polite">请观察道路画面……</div>
+
+        <div class="response-grid">
+          <button id="brakeBtn" class="response-btn danger" type="button" disabled>
+            <span class="keycap response-keycap">F</span>
+            <span><strong>紧急制动</strong><small>判断有行人 · 按 F</small></span>
+          </button>
+          <button id="goBtn" class="response-btn safe" type="button" disabled>
+            <span class="keycap response-keycap">J</span>
+            <span><strong>继续行驶</strong><small>判断无行人 · 按 J</small></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 结果 -->
+    <section id="resultScreen" class="screen">
+      <div class="result-header">
+        <span class="eyebrow">实验完成</span>
+        <h1>你的检测成绩</h1>
+        <p>系统已根据 30 次判断计算 SDT 指标。</p>
+      </div>
+
+      <div class="result-layout">
+        <section class="panel">
+          <div class="panel-title-row">
+            <h2>混淆矩阵</h2>
+            <span class="subtle">实际状态 × 你的判断</span>
+          </div>
+          <div class="matrix">
+            <div class="matrix-empty"></div>
+            <div class="matrix-head">实际有行人</div>
+            <div class="matrix-head">实际无行人</div>
+            <div class="matrix-side">选择制动</div>
+            <div class="matrix-cell hit"><span>Hit</span><strong id="hitCount">0</strong></div>
+            <div class="matrix-cell fa"><span>False Alarm</span><strong id="faCount">0</strong></div>
+            <div class="matrix-side">继续行驶</div>
+            <div class="matrix-cell miss"><span>Miss</span><strong id="missCount">0</strong></div>
+            <div class="matrix-cell cr"><span>Correct Rejection</span><strong id="crCount">0</strong></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>SDT 指标</h2>
+          <div class="metric-grid">
+            <article><span>P(Hit)</span><strong id="hitRate">—</strong></article>
+            <article><span>P(FA)</span><strong id="faRate">—</strong></article>
+            <article><span>实测 d′</span><strong id="observedD">—</strong></article>
+            <article><span>判定标准 c</span><strong id="criterionC">—</strong></article>
+            <article><span>准确率</span><strong id="accuracy">—</strong></article>
+            <article><span>系统设定 d′</span><strong id="targetD">—</strong></article>
+          </div>
+          <div id="correctionNote" class="calculation-note hidden"></div>
+          <div id="criterionExplain" class="interpret-box"></div>
+        </section>
+      </div>
+
+      <div class="result-actions">
+        <button id="replayBtn" class="primary-btn" type="button">再玩一次</button>
+        <button id="resultLabBtn" class="secondary-btn" type="button">进入概念实验室验证 →</button>
+      </div>
+
+      <section class="panel history-panel">
+        <div class="panel-title-row history-title-row">
+          <div>
+            <h2>多局数据对比</h2>
+            <p class="subtle history-subtitle">自动保存最近的实验结果，对比系统设定 d′ 与你的实测 d′。</p>
+          </div>
+          <button id="clearHistoryBtn" class="ghost-btn compact-btn" type="button">清空历史</button>
+        </div>
+        <div class="history-chart-wrap">
+          <canvas id="historyCanvas" width="1000" height="360"></canvas>
+        </div>
+        <div id="historyTable" class="history-table"></div>
+      </section>
+    </section>
+
+    <!-- 概念实验室 -->
+    <section id="labScreen" class="screen">
+      <div class="lab-heading">
+        <div>
+          <span class="eyebrow">Concept Lab</span>
+          <h1>概念实验室</h1>
+          <p>拖动参数，观察敏感性、判定标准、先验概率和奖惩如何改变混淆矩阵与 ROC。</p>
+        </div>
+        <button id="labBackBtn" class="ghost-btn" type="button">← 返回首页</button>
+      </div>
+
+      <nav class="lab-tabs" aria-label="概念实验室模块">
+        <button class="lab-tab active" data-tab="dist" type="button">两个分布</button>
+        <button class="lab-tab" data-tab="roc" type="button">ROC 曲线</button>
+        <button class="lab-tab" data-tab="cost" type="button">标准与奖惩</button>
+      </nav>
+
+      <div id="tab-dist" class="lab-panel active">
+        <div class="lab-controls">
+          <label>敏感性 d′ <strong id="labDValue">1.5</strong>
+            <input id="labDSlider" type="range" min="0.5" max="3.5" step="0.1" value="1.5">
+          </label>
+          <label>判定标准 c <strong id="labCValue">0.0</strong>
+            <input id="labCSlider" type="range" min="-2.0" max="2.0" step="0.1" value="0.0">
+          </label>
+        </div>
+
+        <div class="viz-card"><canvas id="distributionCanvas" width="1000" height="440"></canvas></div>
+
+        <div class="probability-grid">
+          <article><span>Hit</span><strong id="labHit">—</strong></article>
+          <article><span>Miss</span><strong id="labMiss">—</strong></article>
+          <article><span>False Alarm</span><strong id="labFA">—</strong></article>
+          <article><span>Correct Rejection</span><strong id="labCR">—</strong></article>
+          <article><span>β</span><strong id="labBeta">—</strong></article>
+          <article><span>AUC</span><strong id="labAuc">—</strong></article>
+        </div>
+
+        <section class="panel lab-matrix-panel">
+          <div class="panel-title-row">
+            <h2>联动混淆矩阵</h2>
+            <span class="subtle">拖动 d′ 或 c，四格概率实时变化</span>
+          </div>
+          <div class="matrix probability-matrix">
+            <div class="matrix-empty"></div>
+            <div class="matrix-head">实际有行人</div>
+            <div class="matrix-head">实际无行人</div>
+            <div class="matrix-side">判断有危险</div>
+            <div class="matrix-cell hit"><span>Hit</span><strong id="labMatrixH">—</strong></div>
+            <div class="matrix-cell fa"><span>False Alarm</span><strong id="labMatrixFA">—</strong></div>
+            <div class="matrix-side">判断无危险</div>
+            <div class="matrix-cell miss"><span>Miss</span><strong id="labMatrixM">—</strong></div>
+            <div class="matrix-cell cr"><span>Correct Rejection</span><strong id="labMatrixCR">—</strong></div>
+          </div>
+        </section>
+
+        <div class="concept-note">d′ 越大，两种分布分得越开；改变 c 会移动判定标准，但不会改变 d′。</div>
+      </div>
+
+      <div id="tab-roc" class="lab-panel">
+        <div class="lab-controls">
+          <label>敏感性 d′ <strong id="rocDValue">1.5</strong>
+            <input id="rocDSlider" type="range" min="0.5" max="3.5" step="0.1" value="1.5">
+          </label>
+          <label>判定标准 c <strong id="rocCValue">0.0</strong>
+            <input id="rocCSlider" type="range" min="-2.0" max="2.0" step="0.1" value="0.0">
+          </label>
+        </div>
+        <div class="viz-card"><canvas id="rocCanvas" width="1000" height="520"></canvas></div>
+        <div class="roc-readout">
+          <div><span>当前 P(FA)</span><strong id="rocFA">—</strong></div>
+          <div><span>当前 P(Hit)</span><strong id="rocHit">—</strong></div>
+          <div><span>AUC</span><strong id="rocAuc">—</strong></div>
+        </div>
+        <div class="concept-note">同一条 ROC 曲线代表相同 d′ 下的不同判定标准。改变 c，操作点沿曲线移动；改变 d′，整条曲线改变。</div>
+      </div>
+
+      <div id="tab-cost" class="lab-panel">
+        <div class="cost-layout">
+          <section class="panel">
+            <h2>先验概率与完整支付矩阵</h2>
+
+            <label class="stack-control">P(S) 信号先验概率 <strong id="priorValue">0.50</strong>
+              <input id="priorSlider" type="range" min="0.10" max="0.90" step="0.05" value="0.50">
+            </label>
+            <label class="stack-control">用于计算的 d′ <strong id="costDValue">1.5</strong>
+              <input id="costDSlider" type="range" min="0.5" max="3.5" step="0.1" value="1.5">
+            </label>
+
+            <div class="payoff-grid">
+              <div class="payoff-head"></div>
+              <div class="payoff-head">判断有危险</div>
+              <div class="payoff-head">判断无危险</div>
+
+              <div class="payoff-side">实际有行人</div>
+              <label class="payoff-cell reward">
+                <span>Hit 收益</span>
+                <div class="payoff-control">
+                  <input id="hitRewardSlider" type="range" min="0" max="50" step="1" value="5">
+                  <input id="hitRewardInput" type="number" min="0" max="50" step="1" value="5" aria-label="Hit 收益数值">
+                </div>
+              </label>
+              <label class="payoff-cell cost">
+                <span>Miss 代价</span>
+                <div class="payoff-control">
+                  <input id="missCostSlider" type="range" min="0" max="50" step="1" value="10">
+                  <input id="missCostInput" type="number" min="0" max="50" step="1" value="10" aria-label="Miss 代价数值">
+                </div>
+              </label>
+
+              <div class="payoff-side">实际无行人</div>
+              <label class="payoff-cell cost">
+                <span>FA 代价</span>
+                <div class="payoff-control">
+                  <input id="faCostSlider" type="range" min="0" max="50" step="1" value="3">
+                  <input id="faCostInput" type="number" min="0" max="50" step="1" value="3" aria-label="FA 代价数值">
+                </div>
+              </label>
+              <label class="payoff-cell reward">
+                <span>CR 收益</span>
+                <div class="payoff-control">
+                  <input id="crRewardSlider" type="range" min="0" max="50" step="1" value="2">
+                  <input id="crRewardInput" type="number" min="0" max="50" step="1" value="2" aria-label="CR 收益数值">
+                </div>
+              </label>
+            </div>
+          </section>
+
+          <section class="panel decision-panel">
+            <span class="eyebrow">自动驾驶决策建议</span>
+            <h2>最优判定标准</h2>
+            <div class="big-number"><span>β<sub>opt</sub></span><strong id="betaOpt">—</strong></div>
+            <div class="big-number"><span>c<sub>opt</sub></span><strong id="cOpt">—</strong></div>
+            <div id="costInterpret" class="interpret-box"></div>
+            <p class="formula-note">
+              β<sub>opt</sub> = [P(N)/P(S)] × [V(CR)+C(FA)] / [V(H)+C(M)]；
+              c<sub>opt</sub> = ln(β<sub>opt</sub>) / d′。代价输入框填写的是正值大小。
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/sdt.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/lab.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
